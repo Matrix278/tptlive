@@ -1,1 +1,1 @@
-# tptlive
+# Tallinna Polutehnikum
