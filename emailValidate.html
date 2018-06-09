@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script language="javascript">
+    function validate(){
+        var email=document.form.eMail.value;
+        var atPos=email.indexOf("@");
+        var dotPos=email.indexOf(".", atPos);
+        var emailLength=email.length;
+
+        if(atPos > 0 && dotPos > atPos + 1 && dotPos < emailLength-2){
+            alert("Ваш адрес введен верно: " + email);
+            return true;
+
+        }else{
+          alert("Вы ввели недопустимый адрес электронной почты");
+            return false;
+        }
+    }
+    </script>
+
+    <form name="form" onsubmit="return validate();">
+
+        <table>
+
+        <tr>
+        <td align="right">Адрес электронной почты:</td>
+        <td><input type="email" name="eMail"></td>
+        </tr>
+
+        <tr>
+        <td align="right" colspan="2">
+        <input type="submit" value="Submit" id="Ok"></td>
+        </tr>
+
+        </table>
+    </form>
+</body>
+</html>
