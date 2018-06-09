@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <script language="javascript">
+    function in_array(value, array) 
+        {
+            for(var i = 0; i < array.length; i++) 
+            {
+            if(array[i] == value) return true;
+            }
+            return false;
+        }
+    function validate(){
+        formIsOk = true;
+        // проверка ненуливого имени
+        if(document.regForm.userName.value.length==0){
+            formIsOk=false;
+            }
+        // проверка правильного электронного адреса
+        eMailText=document.regForm.eMail.value;
+        atPos=eMailText.indexOf("@");
+        dotPos=eMailText.indexOf(".", atPos);
+        eMailLn=eMailText.length;
+        if(atPos > 0 && dotPos > atPos + 1 && dotPos < eMailLn-2){
+            
+        }else{
+            formIsOk=false;
+        }
+
+        // проверка пароля на правильное количество и состав
+        
+
+        pswd1 = document.regForm.pswd1.value;
+        pswd2 = document.regForm.pswd2.value;
+        smallChars = Array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+        bigChars = Array('A', 'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        digChars = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+        if(in_array(pswd1, smallChars) || in_array(pswd1, bigChars) || in_array(pswd1, digChars)){
+
+        }else{
+            formIsOk=false;
+        }
+
+        if(pswd1.length < 8){
+            formIsOk=false;  
+        }
+        /*if(find(pswd1, smallChars) || find(pswd1, bigСhars) || find(pswd1, digChars)){
+            formIsOk=true;
+        }*/
+
+        /*for(i = 0; i < smallChars.length; i++){
+            if(smallChars[i] !== pswd1){
+                formIsOk=false;
+            }
+        }
+        for(i = 0; i < bigChars.length; i++){
+            if(bigChars[i] !== pswd1){
+                formIsOk=false;
+            }
+        }
+        for(i = 0; i < digChars.length; i++){
+            if(digChars[i] !== pswd1){
+                formIsOk=false;
+            }
+        }*/
+
+        /*if(pswd1.includes(smallChars) || pswd1.includes(bigChars) || pswd1.includes(digChars)){
+            formIsOk=true;
+        }*/
+
+        // проверка паролей на совпадение
+
+        if(formIsOk!==false){document.getElementById('btnOk').disabled="";}
+    }
+    </script>
+    <style>
+    form{
+        display: block;
+        width: 400px;
+        height: auto;
+        margin: 100px auto;
+        background-color: #ddd;
+        border-radius: 8px;
+        box-shadow: 5px 5px 8px rgba(0,0,0,0.8);
+    }
+    *font{
+        font-family: sans-serif;
+    }
+    input[type="submit"]{
+        background-color: red;
+        color: white;
+    }
+    </style>
+
+    <form action="addNewCandidate.php" method="POST" name="regForm">
+
+        <table>
+
+        <tr>
+        <td align="right">Имя пользователя:</td>
+        <td><input onkeyup="validate()" type="text" name="userName"></td>
+        </tr>
+
+        <tr>
+        <td align="right">Адрес электронной почты:</td>
+        <td><input onkeyup="validate()" type="email" name="eMail"></td>
+        </tr>
+        
+        <tr>
+        <td align="right">Пароль:</td>
+        <td><input onkeyup="validate()" type="password" name="pswd1"></td>
+        </tr>
+
+        <tr>
+        <td align="right">Подтвреждение пароля:</td>
+        <td><input onkeyup="validate()" type="password" name="pswd2"></td>
+        </tr>
+
+        <tr>
+        <td align="right" colspan="2">
+        <input type="submit" value="OK" id="btnOk" disabled="disabled"></td>
+        </tr>
+
+        </table>
+    </form>
+</body>
+</html>
