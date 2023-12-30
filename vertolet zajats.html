@@ -1,0 +1,155 @@
+﻿<style>
+.Helicopter{
+     position:absolute;
+     top:0;left:400;
+     width:50px; height:50px;
+     border: solid 1px rgba(0,0,0,0.5);
+     background-image:url(helicopter.png);
+     background-size:contain;
+}
+.Rabbit{
+    position:absolute;
+    top:0;left:200;
+    width:50px; height:50px;
+    border: solid 1px rgba(0,0,0,0.5);
+    background-image:url(rabbit.png);
+    background-size:contain;
+}
+</style>
+<body onload="live();">
+<div id="tablo"></div>
+
+
+</body>
+<script language="javascript">
+//------ общие ресурсы ----//
+commonSpace=1000;
+commonGasoline=500;
+commonNoise=500;
+commonHumanLabor=600;
+commonClearWater=500;
+commonDirtyWater=100;
+commonOxygen=200;
+commonCO2=400;
+commonObjectNum =0;
+commonObjectName ="eco";
+//-------------------------//
+function Helicopter(){
+    this.x=9;
+    this.y=9;
+    this.z=9;
+    this.Vy=9;
+    this.Vx=9;
+    this.Vz=9;
+    this.innerSpace=200; // занимает место
+	this.innerGasoline=300;
+	this.innerNoise=100;
+	this.laborToMake=100; // труды на создание
+	this.laborToRemove=70; // труды на ликвидацию
+	this.waterClearToExist=5; //
+    this.laborToExist=5;
+	this.innerCO2=100;
+	this.objectName = "Helicopter"
+	this.make=function(){ // метод создания
+	this.objectName = commonObjectName + commonObjectNum;
+    commonObjectNum++
+	this.commonGasolineToExist=290; // топливо для передвижения
+	    commonSpace-=this.innerSpace;
+		commonHumanLabor-=this.laborToMake;
+		document.body.innerHTML += '<div class="Helicopter" id="Helicopter" >Helicopter</div>';
+	}
+	this.remove=function(){ // метод ликвидации
+	    commonSpace+=this.innerSpace;
+		commonHumanLabor-=this.laborToRemove;
+		delete this;
+	}
+    this.exist=function(){
+	     // нужна проверка общих переменных на соответствие комфортным условиям
+		 //if(commonClearWater>0 && commonClearWater<1000){
+		     commonClearWater-=this.waterClearToExist;
+		     commonHumanLabor-=this.laborToExist;
+		     commonNoise+=this.innerNoise;
+		     commonCO2-=this.innerCO2;
+		     commonGasoline-=this.innerGasoline;
+		 //}else{
+		 //this.remove();
+		 //}
+	}
+    this.moveIt=function () {
+    this.x+=this.Vx
+    this.y+=this.Vy
+    this.z+=this.Vz
+    document.getElementById("Helicopter").style.left=this.x+"px";
+    document.getElementById("Helicopter").style.top=this.y+"px";
+    document.getElementById("Helicopter").style.width=this.x+"px";
+    document.getElementById("Helicopter").style.height=this.y+"px";
+	}
+}
+function Rabbit(){
+    this.x=5;
+    this.y=5;
+    this.z=0;
+    this.Vy=5;
+    this.Vx=5;
+    this.Vz=0;
+    this.objectName = "Rabbit";
+    this.innerSpace=4;
+	this.innerOxygen=100;
+	this.innerNoise=10;
+	this.innerClearWater=2;
+	this.innerDirtyWater=1;
+	this.innerCO2=75;
+	this.make=function(){ // метод появления
+	    commonSpace-=this.innerSpace;
+		this.objectName = commonObjectName + commonObjectNum
+        commonObjectNum++
+        document.body.innerHTML += '<div class="Rabbit" id="Rabbit" >Rabbit</div>'
+}
+    this.remove=function(){ // метод ликвидации
+	    commonSpace+=this.innerSpace;
+		delete this;
+	}
+	this.exist=function(){
+	         commonDirtyWater+=this.innerClearWater;
+			 commonOxygen-=this.innerOxygen;
+	}
+    this.moveIt=function () {
+    this.x+=this.Vx
+    this.y+=this.Vy
+    this.z+=this.Vz
+    document.getElementById("Rabbit").style.left=this.x+"px";
+    document.getElementById("Rabbit").style.top=this.y+"px";
+    document.getElementById("Helicopter").style.height=this.x+"px";
+    document.getElementById("Helicopter").style.width=this.y+"px";
+  }
+}
+//------------ применение -------------//
+vertolet=new Helicopter();
+vertolet.make();
+bit=new Rabbit();
+bit.make();
+//flying.remove();
+
+//alert(commonSpace);
+//alert(commonHumanLabor);
+function onTablo(){ // вывод информации в документ
+Message="Общее место:"+commonSpace+"<br>Общий труд:"+commonHumanLabor;
+Message+="<br>Общий запас чистой воды:"+commonClearWater;
+Message+="<br>Общий запас топлива:"+commonGasoline;
+Message+="<br>Общий запас шума:"+commonNoise;
+Message+="<br>Общий запас грязной воды:"+commonDirtyWater;
+Message+="<br>Общий запас кислорода:"+commonOxygen;
+Message+="<br>Общий запас углекислого газа:"+commonCO2;
+document.getElementById("tablo").innerHTML=Message;
+}
+
+function live(){ // запуск 2 раза в секунду вычисления
+vertolet.exist();
+bit.exist();
+vertolet.moveIt();
+bit.moveIt();
+onTablo();
+setTimeout("live()", 500);
+}
+
+</script>

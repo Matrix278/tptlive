@@ -1,0 +1,119 @@
+<html>
+<body onload="moveRobot()">
+<div id="robot"
+        style="width: 50px;
+        height: 50px;
+        background-color: #FF0000;
+        color: #FFFF00;
+        text-align: center;
+        font-size: 35px;
+        position:absolute;
+        top:200px; left:150px;
+        ">R</div>
+</body>
+<script>
+Ry=0; // от 0 до 9 - первый индекс в массиве map
+Rx=0; // от 0 до 9 - второй индекс в массиве map
+Vx=0; // или -1 (влево), или 0, или 1 (вправо)
+Vy=0; // или -1 (вверх), или 0, или 1 (вниз)
+map=Array();
+map[0]=Array("S", 1 , 1 , 0 , 0 ); // карта с единственным
+map[1]=Array( 0 , 0 , 1 , 0 , 0 ); // вариантом прохода
+map[2]=Array( 1 , 0 , 1 , 1 , 1 );
+map[3]=Array( 1 , 0 , 0 , 0 , 1 );
+map[4]=Array( 1 , 1 , 1 , 0 ,"F");
+
+/*map[0]=Array("S",0,1,0,0,0,0,0,1,1);
+map[1]=Array(0,0,1,0,0,0,1,1,1,0);
+map[2]=Array(1,0,1,1,1,0,1,0,0,0);
+map[3]=Array(1,0,0,0,1,0,0,0,0,0);
+map[4]=Array(1,1,0,0,1,0,0,0,1,1);
+map[5]=Array(0,0,0,0,0,0,0,0,0,0);
+map[6]=Array(0,0,0,1,0,0,1,0,1,0);
+map[7]=Array(1,1,0,1,0,0,1,1,1,0);
+map[8]=Array(0,0,0,1,0,0,0,0,0,0);
+map[9]=Array(0,1,1,1,0,1,0,1,0,0);*/
+
+function moveRobot(){
+    directions=Array(); // для загрузки значений массива map клеток сверху, справа, снизу, слева (порядок важен)
+    if(Ry-1>=0){ // ограничение для случая когда робот находиться в самом верхнем углу
+        directions[0]=map[Ry-1][Rx];
+    }else{
+        directions[0]='';
+        }
+    directions[1]=map[Ry][Rx+1];
+    directions[2]=map[Ry+1][Rx];
+    if(Rx-1>=0){ // ограничение для случая когда робот находиться в самой правой колонке
+        directions[3]=map[Ry][Rx-1];
+    }else{
+        directions[3]=''}
+        //alert (directions)
+    //---------------- поиск среди соседних клеток F -------
+    if(directions.indexOf("F")!=-1){
+    //---------------- что делаем, если финиш рядом -------
+    switch(directions.indexOf("F")){
+        case 0:// если клетка F над роботом
+            alert("Финиш над роботом")
+            Vx=0 ;
+            Vy=-1 ;
+        break;
+        case 1: // если клетка F справа от робота
+            alert("Финиш справа от робота")
+            Vx=1 ;
+            Vy=0 ;
+        break;
+        case 2: // если клетка F снизу от робота
+            alert("Финиш снизу от робота")
+            Vx=1 ;
+            Vy=0 ;
+        break;
+        default: // если клетка F слева от робота
+            alert("Финиш слева от робота")
+            Vx=-1 ;
+            Vy=0 ;
+        break;
+    }
+
+    }else{
+    //---------------- что делаем, если рядом нет финиша -------
+    do{
+        variant=Math.floor(Math.random()*4);
+    }while(directions[variant]!==0);
+    switch(variant){
+        case 0:// если клетка 0 над роботом
+            alert("Свободная клетка над роботом")
+            Vx=0 ;
+            Vy=-1 ;
+        break;
+        case 1: // если клетка 0 справа
+            alert("Свободная клетка справа от робота")
+            Vx=1 ;
+            Vy=0 ;
+        break;
+        case 2: // если клетка 0 снизу от робота
+            alert("Свободная клетка снизу от робота")
+            Vx=1 ;
+            Vy=0 ;
+        break;
+        default: // если клетка 0 слева от робота
+            alert("Свободная клетка слева от робота")
+            Vx=-1 ;
+            Vy=0 ;
+        break;
+    }
+    }
+    Rx=Rx+Vx; // Rx+=Vx;
+    Ry=Ry+Vy; // Ry+=Vy;
+document.getElementById("robot").style.top=Ry+"px";
+document.getElementById("robot").style.left=Rx+"px";
+if(map[Ry][Rx]!="F"){
+    setTimeout("moveRobot()",1000);
+}else{
+    alert("Финиш найден!");
+}
+alert("Координаты робота: X="+Rx+" ,Y="+Ry);
+alert("Выбрал направление Vx="+Vx+" ,Vy="+Vy);
+}
+
+</script>
+</html>

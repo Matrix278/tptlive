@@ -1,0 +1,174 @@
+<html>
+<head>
+<script>
+Z=Array();
+    for(i=0;i<=10;i++){
+    Z[i]=Array();
+    for(j=0;j<=10;j++){
+    Z[i][j]=0;
+    }
+}
+knb=Array();
+    for(i=1;i<=33;i++){
+    knb[i]=Array();
+    for(j=1;j<=33;j++){
+    knb[i][j]=0;
+    }
+}
+function remapZ(){
+    document.getElementById("antsMap").innerHTML='';
+    fText='<table>';
+    for(i=0;i<=10;i++){
+    fText+='<tr>';
+    for(j=0;j<=10;j++){
+    fText+='<td>'+Z[i][j]+'</td>';
+    }
+    fText+='</tr>';
+}
+fText+='</table>';
+document.getElementById("antsMap").innerHTML=fText;
+setTimeout("remapZ()",100);
+}
+
+function martinsBot27(){
+    Bx=Math.floor(Math.random()*Z.length);
+    By=Math.floor(Math.random()*Z[0].length);
+    Xp=0;
+    Yp=0;
+
+    if (Z[Bx][By]!=0) {
+    while (Z[Bx][By]!=0){
+    Bx=Math.floor(Math.random()*Z.length);
+    By=Math.floor(Math.random()*Z[0].length);
+    }
+}
+Z[Bx][By]=27;
+
+function move27() {
+
+ 
+function naiti27(){
+    Xp=0;
+    Yp=0;
+    while (Z[Yp][Xp]!=27) {
+    Xp=Xp+1;
+
+    if (Xp>Z[0].length-1) {
+    Xp=0;
+    Yp=Yp+1;
+
+    if (Yp>Z.length-1){
+    Yp=0;
+                }
+            }
+        }
+    }
+naiti27();
+abc = Math.floor(Math.random() * 4);
+
+switch(abc){
+case 0:
+
+if (Yp<=Z.length-1) {
+if (Z[Yp+1][Xp]==0) {
+Z[Yp+1][Xp]=27
+Z[Yp][Xp]=0
+naiti27();
+break;
+
+}else{ 
+    break;
+    }
+
+}else{
+    break;
+    }
+
+ 
+case 1:
+
+    if (Xp<=Z[0].length-1) {
+    if (Z[Yp][Xp+1]==0) {
+    Z[Yp][Xp+1]=27
+    Z[Yp][Xp]=0
+    naiti27();
+    break;
+}else{
+    break;
+    }
+}else{
+    break;
+    }
+
+case 2: 
+
+if (Yp>0) {
+if (Z[Yp-1][Xp]==0) {
+Z[Yp-1][Xp]=27
+Z[Yp][Xp]=0
+naiti27();
+break;
+}else{
+    break;
+    }
+}else{
+    break;
+    }
+
+case 3:
+
+    if (Xp>0) {
+    if (Z[Yp][Xp-1]==0) {
+    Z[Yp][Xp-1]=27
+    Z[Yp][Xp]=0
+    naiti27();
+    break;
+}else{
+    break;
+    }
+}else{
+    break;
+    }
+        }
+            }
+    function sostezanie(){
+    var dprotivnik=[By][Bx];
+    knb[27]=Math.floor((Math.random()*3)+1);
+    if(knb[27][dprotivnik]==1 && knb[27][dprotivnik]==3){
+        Z[Bx][By]=0;
+    }
+    if(knb[27][dprotivnik]==3 && knb[27][dprotivnik]==1){
+        move();
+    }
+    if(knb[27][dprotivnik]==1 && knb[27][dprotivnik]==2){
+        move();
+    }
+    if(knb[27][dprotivnik]==2 && knb[27][dprotivnik]==1){
+        Z[Bx][By]=0;
+    }
+    if(knb[27][dprotivnik]==2 && knb[27][dprotivnik]==3){
+        move();
+    }
+    if(knb[27][dprotivnik]==3 && knb[27][dprotivnik]==2){
+        Z[Bx][By]=0;
+    }
+    if(knb[27][dprotivnik]==1 && knb[27][dprotivnik]==1){
+        sostezanie();
+    }
+    if(knb[27][dprotivnik]==2 && knb[27][dprotivnik]==2){
+        sostezanie();
+    }
+    if(knb[27][dprotivnik]==3 && knb[27][dprotivnik]==3){
+        sostezanie();
+    }
+}
+    setInterval(move27, 800);
+}
+
+
+</script>
+</head>
+<body onload="remapZ();martinsBot27()">
+<div id="antsMap"></div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script language="javascript">
+            N=9; // количество этажей
+            stageStop=Array();
+            function postroit(){
+            for(i=N; i>=1; i--){
+                stageStop[i] = 69 + (N - i) * 51; //координата остановки лифта на соответствующем этаже
+                document.getElementById("etazi").innerHTML+="<div>Этаж "+i; // с 1 до 9 этажи
+                if(i<N){
+                document.getElementById("etazi").innerHTML+='<input type="button" value="&uarr;" onclick="vyzov('+i+',-1)" />'; // кнопка стрелка вверх
+                }
+                if(i>1){
+                document.getElementById("etazi").innerHTML+='<input type="button" value="&darr;" onclick="vyzov('+i+',1)" />'; // кнопка стрелка вниз
+                }
+                document.getElementById("etazi").innerHTML+="</div>";
+                document.getElementById('kabina').innerHTML+='<input type="button" value="'+i+'" onclick="vyzov('+i+',0)" />'; // кнопки в лифте
+            }
+        }
+ 
+        function vyzov(gde, kuda){ //где вызвали, и куда вызвали
+            //alert("Вызов "+gde+" "+kuda);
+            if(typeof(povtor)!='undefined'){
+                clearTimeout(povtor);
+            }
+                dvizenie(kuda, gde); // kuda - направление движения, а gde - этаж на который надо приехать
+        }
+        liftY=67; // координата где находится лифт
+        function dvizenie(kuda, etaz){
+            if(liftY<stageStop[etaz]){
+                v=1;
+            }else if(liftY>stageStop[etaz]){
+                v=-1;
+            }else{
+                v=0;
+            }
+            liftY += v * 1;
+            document.liftInfo.liftHeight.value=liftY;
+            document.liftInfo.liftStop.value=stageStop[etaz];
+            document.getElementById('kabina').style.top=liftY+"px";
+            if(liftY!=stageStop[etaz]){
+            povtor=setTimeout("dvizenie("+kuda+","+etaz+")",30);
+            }
+        }
+        /*
+        1 этаж -483
+        2 этаж -431
+        3 этаж -378
+        4 этаж -326
+        5 этаж -275
+        6 этаж -223
+        7 этаж -171
+        8 этаж -118
+        9 этаж -67
+        */
+        </script>
+        <style>
+            #etazi div{
+            width: 100px;
+            height: 50px;
+            border: 1px solid #ccc;
+        }
+            #etazi input{
+            margin-top: -25px;
+        }
+       
+            #kabina{
+            width: 175px;
+            height: 50px;
+            background-color: orange;
+            position: absolute;
+            top: 69px;
+            left: 130px;
+            text-align: center;
+        }
+            #kabina input{
+            width: 15px;
+            height: 15px;
+            padding: 0;
+            font-size: 12px;
+            font-weight: bold;
+        }
+            #tablo {
+            width: 300px;
+            height: auto;
+            position: fixed;
+            top: 20;
+            right: 0;
+        }
+        </style>
+    </head>
+    <body onload="postroit()">
+        <h1>Транзитный лифт</h1>
+        <div id="etazi"></div>
+        <div id="kabina">Лифт<br></div>
+        <div id="tablo">
+        <form name="liftInfo">
+            Высота: <input type="text" name="liftHeight" />
+            Остановка: <input type="text" name="liftStop" />
+            <input type="button" value="STOP" onclick="vyzov(0,0)" />
+            </form>
+        </div>
+    </body>
+</html>
