@@ -1,0 +1,90 @@
+﻿<html>
+   <head>
+      <style>
+        .transportIcons{
+            width:80px;
+            height:80px;
+            border:1px black solid;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+
+       </style>
+
+
+
+       <script>
+//-------------- создание класса ----------------
+           function Transport (newName,icon, crushIcon) {
+               this.name=newName;
+               this.crush=crushIcon;
+               this.x=0;
+               this.y=0;
+               this.Vx=0;
+               this.Vy=0;
+               document.body.innerHTML+='<img src="'+icon+'" class="transportIcons" id="'+this.name+'" />';
+           }
+      function startItUp(){
+      //----------- создание объектов -------------------
+           iceberg=new Transport ("Iceberg","iceberg.png","crush.png");
+           ship=new Transport ("Titanic","ship-icon.png","crush.png");
+      //---------- наделение объектов свойствами ---------------
+
+      ship.x=100;
+      ship.y=50;
+      ship.Vx=5;
+      ship.Vy=0;
+
+      iceberg.x=400;
+      iceberg.y=350;
+      iceberg.Vx=0;
+      iceberg.Vy=-5;
+
+      //----------Функция рассчета параметров относительно времени -----
+      T=0; // переменная для отчсета времени
+      dT=1; // масштаб времени 
+      }
+
+
+      function timeCounter(){
+         T+=dT;  // T=T+dT
+         if(distance(ship,iceberg) > 2){
+             setTimeout ("timeCounter()", 1000); // запуск  указанной в скобках функции через 100 миллисекунды
+         }else{
+            // alert("Столкновение!!!");
+            document.getElementById(ship.name).src=ship.crush;
+            document.getElementById(iceberg.name).src=iceberg.crush;
+         }
+         moveIt (ship); //вызов функции рассчета новых координат для объекта корабль
+         moveIt (iceberg); //вызов функции рассчета новых координат для объекта айсберг
+         // дописываем в начало документа информацию о корабле
+         //document.body.innerHTML="Координаты корабля: Долгота:"+ship.x+" Широта: "+ship.y+"<br>"+document.body.innerHTML;
+         // дописываем в начало документа информацию о айсберге
+         //document.body.innerHTML="Координаты айсберга: Долгота:"+iceberg.x+" Широта: "+iceberg.y+"<br>"+document.body.innerHTML;
+         // вводим дистанцию между объектами
+         //document.body.innerHTML="Дистанция между кораблем и айсбергом: "+distance(ship,iceberg)+"<br>"+document.body.innerHTML;
+         // выводим в начале документа линию
+         //document.body.innerHTML="<hr>"+document.body.innerHTML;
+      }
+
+      function moveIt(what){ // функция рассчета новых координат
+         what.x=what.x+what.Vx;
+         what.y=what.y+what.Vy;
+         document.getElementById(what.name).style.left=what.x+"px";
+         document.getElementById(what.name).style.top=what.y+"px";
+
+     }
+
+    function distance(obj1, obj2){
+      a=obj1.x-obj2.x;
+      b=obj1.y-obj2.y;
+      c=Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return parseInt(c);
+   }
+       </script>
+    </head>
+    <body onload="startItUp();timeCounter()">
+
+    </body>
+</html>

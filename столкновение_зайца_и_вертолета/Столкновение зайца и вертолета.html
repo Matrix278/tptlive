@@ -1,0 +1,92 @@
+﻿<html>
+   <head>
+      <style>
+      body{background-image:url(http://sf.co.ua/12/11/wallpaper-2453938.jpg)
+      ;background-size:cover;}
+      .transportIcons{
+      width:80px;
+      height:80px;
+      border:1px black solid;
+      position:absolute;
+      top:0;
+      left:0;
+     }
+
+       </style>
+
+
+
+       <script>
+//-------------- создание класса ----------------
+           function Transport (newName,icon, crushIcon) {
+               this.name=newName;
+               this.crush=crushIcon;
+               this.x=0;
+               this.y=0;
+               this.Vx=0;
+               this.Vy=0;
+               document.body.innerHTML+='<img src="'+icon+'" class="transportIcons" id="'+this.name+'" />';
+           }
+      function startItUp(){
+      //----------- создание объектов -------------------
+           helicopter=new Transport ("helicopter","helicopter.png","crush.png");
+           rabbit=new Transport ("rabbit","rabbit.png","crush.png");
+      //---------- наделение объектов свойствами ---------------
+
+      rabbit.x=100;
+      rabbit.y=700;
+      rabbit.Vx=5;
+      rabbit.Vy=0;
+
+      helicopter.x=400;
+      helicopter.y=400;
+      helicopter.Vx=0;
+      helicopter.Vy=5;
+
+      //----------Функция рассчета параметров относительно времени -----
+      T=0; // переменная для отчсета времени
+      dT=1; // масштаб времени 
+      }
+
+
+      function timeCounter(){
+         T+=dT;  // T=T+dT
+         if(distance(rabbit,helicopter) > 2){
+             setTimeout ("timeCounter()", 100); // запуск  указанной в скобках функции через 100 миллисекунды
+         }else{
+            // alert("Столкновение!!!");
+            document.getElementById(rabbit.name).src=rabbit.crush;
+            document.getElementById(helicopter.name).src=helicopter.crush;
+         }
+         moveIt (rabbit); //вызов функции рассчета новых координат для объекта заяц
+         moveIt (helicopter); //вызов функции рассчета новых координат для объекта вертолёт
+         // дописываем в начало документа информацию о зайце
+         //document.body.innerHTML="Координаты зайца: Долгота:"+rabbit.x+" Широта: "+rabbit.y+"<br>"+document.body.innerHTML;
+         // дописываем в начало документа информацию о вертолёте
+         //document.body.innerHTML="Координаты вертолёта: Долгота:"+helicopter.x+" Широта: "+helicopter.y+"<br>"+document.body.innerHTML;
+         // вводим дистанцию между объектами
+         //document.body.innerHTML="Дистанция между зайцем и вертолётом: "+distance(rabbit,helicopter)+"<br>"+document.body.innerHTML;
+         // выводим в начале документа линию
+         //document.body.innerHTML="<hr>"+document.body.innerHTML;
+      }
+
+      function moveIt(what){ // функция рассчета новых координат
+         what.x=what.x+what.Vx;
+         what.y=what.y+what.Vy;
+         document.getElementById(what.name).style.left=what.x+"px";
+         document.getElementById(what.name).style.top=what.y+"px";
+
+     }
+
+    function distance(obj1, obj2){
+      a=obj1.x-obj2.x;
+      b=obj1.y-obj2.y;
+      c=Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return parseInt(c);
+   }
+       </script>
+    </head>
+    <body onload="startItUp();timeCounter()">
+
+    </body>
+</html>
